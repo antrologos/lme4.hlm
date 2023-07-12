@@ -2,6 +2,8 @@ rm(list=ls())
 
 # Loading packages -------------------------------------------------------------
 
+#devtools::install_github("antrologos/lme4.hlm")
+
 pacman::p_load(lme4, merTools, lme4.for.hlm, tibble, dplyr)
 
 # Loading data -----------------------------------------------------------------
