@@ -4,7 +4,7 @@ rm(list=ls())
 
 #devtools::install_github("antrologos/lme4.hlm")
 
-pacman::p_load(lme4, merTools, lme4.for.hlm, tibble, dplyr)
+pacman::p_load(lme4, merTools, lme4.for.hlm, tibble, dplyr, ggplot2)
 
 # Loading data -----------------------------------------------------------------
 
@@ -43,29 +43,11 @@ lmer_estimate = lmer(formula = f,
 # Tidy Summary more suited to HLM models ****
 tidy_hlm(lmer_estimate)
 
-
 hsb$random.coefficients.preds <-  predict(lmer_estimate)
-
 
 hsb %>%
         ggplot(aes(x = ses_diff_ind, y = random.coefficients.preds, color = schid)) +
         geom_smooth(method = "lm", se = F, alpha = .2) +
         theme_bw() +
         theme(legend.position = "none")
-
-random.coefficients.graph <-  ggplot(data = df,
-                                     aes(x = experience,
-                                         y = random.coefficients.preds,
-                                         colour = firma)) +
-        geom_smooth(method = "lm", fullrange = TRUE, size = 0.3) +
-        geom_jitter(aes(x = experience, y = salary,
-                        group = firma, colour = firma),
-                    alpha = 0.2) +
-        labs(x = xlabel, y = ylabel) +
-        ggtitle("Random Coefficients Model") +
-        scale_colour_discrete('Firma') +
-        theme_tufte()
-
-
-
 
