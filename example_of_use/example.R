@@ -43,6 +43,16 @@ lmer_estimate = lmer(formula = f,
 # Tidy Summary more suited to HLM models ****
 tidy_hlm(lmer_estimate)
 
+sjPlot::tab_model(lmer_estimate)
+
+summary_hlm(lmer_estimate)
+
+
+
+
+
+# Plots ------------------------------------------------------------------------
+
 hsb$random.coefficients.preds <-  predict(lmer_estimate)
 
 hsb %>%
@@ -50,4 +60,6 @@ hsb %>%
         geom_smooth(method = "lm", se = F, alpha = .2) +
         theme_bw() +
         theme(legend.position = "none")
+
+
 
