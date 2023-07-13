@@ -6,6 +6,23 @@ summary_hlm = function(model){
 
         tables = tidy_hlm(model)
 
+        f = formula(lmer_estimate)
+        parameters_df = attr(f, "parameters_df")
+
+        level2_deps = names(tables[["level2"]])
+        level2_deps = dplyr::filter(.data = parameters_df,
+                                    var %in% level2_deps)
+        level2_deps = dplyr::summarise(dplyr::group_by(.data = level2_deps, var), Variables = unique(interaction))
+        level2_deps = dplyr::rename(level2_deps, Parameters = var)
+        level2_deps = dplyr::mutate(level2_deps, Variables = ifelse(is.na(Variables), "(Intercept)", Variables))
+        level2_deps <- dplyr::mutate(level2_deps,
+                                     Parameters = stringr::str_replace(Parameters,
+                                                                       "^b",
+                                                                       "\\&beta;<sub>"),
+                                     Parameters = paste0(Parameters, "</sub>"),
+                              headers = paste0("<b>Level 2</b>: ", Parameters, ", ", Variables))
+
+
         level1 = prep_table(tables[[1]], letter = "b", greek_letter = "beta")
         level2 = lapply(tables[[2]], prep_table, letter = "g", greek_letter = "gamma")
 
@@ -38,7 +55,14 @@ summary_hlm = function(model){
                                                             \(v) round(v, 3)),
                                            rnames = F)
 
-        htmlTable::concatHtmlTables(tables  = c(level1, level2, random, correlations, ICC, diagnostics))
+
+        htmlTable::concatHtmlTables(tables  = c(level1, level2, random, correlations, ICC, diagnostics),
+                                    headers = c("<b>Level 1</b>",
+                                                level2_deps$headers,
+                                                "<b>Variances of the Random Effects</b>",
+                                                "<b>Correlation among Random Effects</b>",
+                                                "<b>Intra-class Correlation Coefficient (ICC)</b>",
+                                                "<b>Diagnostics</b>"))
 
 }
 

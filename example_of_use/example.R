@@ -4,7 +4,7 @@ rm(list=ls())
 
 #devtools::install_github("antrologos/lme4.hlm")
 
-pacman::p_load(lme4, merTools, lme4.for.hlm, tibble, dplyr, ggplot2)
+pacman::p_load(lme4, merTools, lme4.hlm, tibble, dplyr, ggplot2)
 
 # Loading data -----------------------------------------------------------------
 
@@ -31,7 +31,8 @@ b2 ~ g20 + g21*log(size)                   + r(schid)
 b3 ~ g30 + g31*ses_school                  + r(schid)
 "
 
-# Using the function that converts a HLM character formula to a mixed effects formula
+# NEW FUNCTION: Using the function that converts a HLM character formula to
+# a mixed effects formula
 f = formula_hlm_to_lmer(formula_char = formula,
                         correlated_ranef = T)
 
@@ -40,15 +41,15 @@ lmer_estimate = lmer(formula = f,
                      data = hsb,
                      REML = T)
 
-# Tidy Summary more suited to HLM models ****
-tidy_hlm(lmer_estimate)
-
+# Pre-existing function from another package that also summarizes lmer objects,
+# but does not differentiates between equation levels
 sjPlot::tab_model(lmer_estimate)
 
+# NEW FUNCTION: Tidy summary objects more suited to HLM models ****
+tidy_hlm(lmer_estimate)
+
+# NEW FUNCTION: Tidy summary ****
 summary_hlm(lmer_estimate)
-
-
-
 
 
 # Plots ------------------------------------------------------------------------
