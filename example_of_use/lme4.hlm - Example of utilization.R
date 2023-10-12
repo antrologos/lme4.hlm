@@ -51,7 +51,6 @@ tidy_hlm(lmer_estimate)
 # NEW FUNCTION: Tidy summary ****
 summary_hlm(lmer_estimate)
 
-
 # Plots ------------------------------------------------------------------------
 
 hsb$random.coefficients.preds <-  predict(lmer_estimate)

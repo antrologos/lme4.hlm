@@ -6,7 +6,7 @@ summary_hlm = function(model){
 
         tables = tidy_hlm(model)
 
-        f = formula(lmer_estimate)
+        f = formula(model)
         parameters_df = attr(f, "parameters_df")
 
         level2_deps = names(tables[["level2"]])
@@ -23,8 +23,8 @@ summary_hlm = function(model){
                               headers = paste0("<b>Level 2</b>: ", Parameters, ", ", Variables))
 
 
-        level1 = prep_table(tables[[1]], letter = "b", greek_letter = "beta")
-        level2 = lapply(tables[[2]], prep_table, letter = "g", greek_letter = "gamma")
+        level1 = lme4.hlm:::prep_table(tables[[1]], letter = "b", greek_letter = "beta")
+        level2 = lapply(tables[[2]], lme4.hlm:::prep_table, letter = "g", greek_letter = "gamma")
 
         random = dplyr::mutate(tables[[3]],
                                term = stringr::str_replace(term,
@@ -54,7 +54,6 @@ summary_hlm = function(model){
                                                             is.numeric,
                                                             \(v) round(v, 3)),
                                            rnames = F)
-
 
         htmlTable::concatHtmlTables(tables  = c(level1, level2, random, correlations, ICC, diagnostics),
                                     headers = c("<b>Level 1</b>",

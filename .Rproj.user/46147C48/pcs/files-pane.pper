@@ -1,6 +1,10 @@
 {
     "sortOrder": [
         {
+            "columnIndex": 3,
+            "ascending": false
+        },
+        {
             "columnIndex": 1,
             "ascending": false
         },
@@ -9,5 +13,5 @@
             "ascending": true
         }
     ],
-    "path": "C:/Users/antrologos/Desktop/Estudos_de_Metodos/study_HLM/lme4.hlm/R"
+    "path": "C:/Users/antrologos/Desktop/Estudos_de_Metodos/study_HLM/lme4.hlm/example_of_use"
 }
